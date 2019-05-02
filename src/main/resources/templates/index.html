@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="text-align: center;">
+    <h1 th:text="${accountStatus}"></h1>
+    <h2 th:text="${fajneInfo}"></h2>
+    <ul>
+        <li th:each="contact : ${contacts.getContent()}">
+            <img th:src="@{'/avatar/' + ${contact.getId()}}" alt="" style="width: 50px; height: 50px;"/>
+
+            <br/>
+
+            <span th:text="${contact.getName() + ': ' + contact.getPhone()}"></span>
+
+            <br/>
+
+            <a th:href="@{'/contact/delete/' + ${contact.getId()}}">Usuń kontakt</a>
+            <a th:href="@{'/contact/avatar/delete/' + ${contact.getId()}}">Usuń avatar</a>
+            <form method="POST" enctype="multipart/form-data" th:action="@{'/contact/avatar/change/' + ${contact.getId()}}">
+                    <input type="file" name="avatar" />
+                    <input type="submit" value="Wrzuć avatar" />
+            </form>
+
+            <hr/>
+        </li>
+    </ul>
+
+    <a th:each="number: ${#numbers.sequence(0, contacts.getTotalPages() - 1)}" th:href="@{'/' + ${number}}" th:text="${number + ' '}"></a>
+    <br/>
+    <a href="/contact/add">Dodaj nowy kontakt</a>
+</div>
+</body>
+</html>
