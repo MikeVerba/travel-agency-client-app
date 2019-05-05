@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <title>Logout</title>
-
+    <title>Your Offers</title>
 </head>
 <body>
+
 <nav class="navbar bg-dark navbar-dark">
     <div class="container">
         <a href="/index" class="navbar-brand">Your Account</a>
@@ -20,14 +20,43 @@
     </div>
 </nav>
 
+
 <div class="jumbotron jumbotron-fluid bg-info text-white text-center">
     <div class="container">
-        <h4>Logout</h4>
+        <h4>Your Offers</h4>
     </div>
 </div>
 
-<div class="container" align="center">You're logged out!</div>
 
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th> # </th>
+        <th> Price Per Night </th>
+        <th> Number of Nights </th>
+        <th> Destination </th>
+        <th> Is Dog Allowed </th>
+        <th> Is Offer Booked </th>
+        <th> Action </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${chosenOfferList.empty}">
+        <td colspan="2"> No Offers Avalible </td>
+    </tr>
+
+    <tr th:each="offer: ${chosenOfferList}">
+        <td><span th:text="${offer.id}"> 1 </span></td>
+        <td><span th:text="${offer.pricePerNight}"> Price per night </span></td>
+        <td><span th:text="${offer.numberOfNights}"> Number of nights </span></td>
+        <td><span th:text="${offer.continent}"> Continent </span></td>
+        <td><span th:text="${offer.dogAllowed} ? 'YES' : 'NO'">Is Dog Allowed</span></td>
+        <td><span th:text="${offer.offerBooked} ? 'YES' : 'NO'">Is Offer Booked</span></td>
+        <td><a th:href="@{'/offer/unbook-offer/' + ${offer.getId()}}">Unbook Offer</a></td>
+    </tr>
+    </tbody>
+</table>
 
 
 <footer class="page-footer font-small bg-secondary text-white special-color-dark pt-4">

@@ -2,29 +2,34 @@ package com.example.travelagencyclientapp.app.models.entities;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
 @Table(name = "user")
 public class UserEntity {
     public enum AccountStatus {
-        ACTIVATED, NOT_ACTIVATED, BANNED;
+        ACTIVATED, NOT_ACTIVATED, BANNED
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String surname;
     private String username;
     private String password;
-
     private String email;
-    private @Column(name = "entry_date")
-    LocalDateTime time;
+
+    @Column(name = "entry_date")
+    private LocalDateTime time;
 
     @Column(name = "account_status")
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
+
+    @OneToMany(mappedBy = "userEntity",fetch = FetchType.EAGER)
+    private List<OfferEntity> offerEntityList;
 
     public Long getId() {
         return id;
@@ -81,4 +86,21 @@ public class UserEntity {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public List<OfferEntity> getOfferEntityList() {
+        return offerEntityList;
+    }
+
+    public void setOfferEntityList(List<OfferEntity> offerEntityList) {
+        this.offerEntityList = offerEntityList;
+    }
+
 }

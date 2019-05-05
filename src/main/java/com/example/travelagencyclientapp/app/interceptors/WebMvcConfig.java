@@ -18,7 +18,7 @@ public class WebMvcConfig extends HandlerInterceptorAdapter implements WebMvcCon
 
     final UserSession userSession;
 
-    private static final List<String> allowedUrls = Arrays.asList("/login", "/add-user");
+    private static final List<String> allowedUrls = Arrays.asList("/login", "/registration-form","/logout");
 
     @Autowired
     public WebMvcConfig(UserSession userSession) {

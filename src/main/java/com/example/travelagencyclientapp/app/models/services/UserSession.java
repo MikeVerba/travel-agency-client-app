@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserSession {
     private boolean isLogin;
-    private UserEntity userEntity; //todo remove this in the future (cause hibernate proxy)
+    private UserEntity userEntity; //todo hibernate proxy potential issue?
 
 
 

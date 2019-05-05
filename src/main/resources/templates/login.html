@@ -2,30 +2,66 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <title>Login Form</title>
 </head>
 <body>
+
+<nav class="navbar bg-dark navbar-dark">
+    <div class="container">
+        <a href="/index" class="navbar-brand">Your Account</a>
+        <a href="/user-chosen-offers" class="navbar-brand">Selected Offers</a>
+        <a href="/search-form" class="navbar-brand">Search For Offers</a>
+        <a href="/all-offers-list" class="navbar-brand">All Offers</a>
+        <a href="/registration-form" class="navbar-brand">Register new user</a>
+        <a href="/login" class="navbar-brand">Log In</a>
+        <a href="/logout" class="navbar-brand">Log Out</a>
+    </div>
+</nav>
+
+
+<div class="jumbotron jumbotron-fluid bg-info text-white text-center">
+    <div class="container">
+        <h4>Logowanie</h4>
+    </div>
+</div>
+
+
+<div class="container">
+    <h5 class="col-12 text-danger my-2 text-center" th:if="${incorrectLoginCredentials!= null}"
+        th:text="${incorrectLoginCredentials}"></h5>
+
+
 <div align="center">
 
     <th:block th:if="${loginResponse != null}" th:switch="${loginResponse}">
-        <span th:case="${loginResponse.BAD_CREDENTIALS}" th:text="#{Login.bad.credentails}"></span>
+        <span th:case="${loginResponse.BAD_CREDENTIALS}" th:text="#{Login.bad.credentials}"></span>
         <span th:case="${loginResponse.ACCOUNT_NOT_ACTIVATED}"  th:text="#{Login.account.not.activated}"></span>
         <span th:case="${loginResponse.BANNED}"  th:text="#{Login.account.banned}"></span>
     </th:block>
 
 
     <h1>Login</h1>
-    <form action="#" th:action="@{/login-form}" th:object="${user}" method="post">
-        <p> Username: <input type="text" th:field="*{name}"></p>
+    <form action="#" th:action="@{/login}" th:object="${loginForm}" method="post"  class="col-md-6 mx-auto">
+        <p> Username: <input type="text" th:field="*{username}"></p>
         <p> Password: <input type="text" th:field="*{password}"></p>
-        <p><input type="submit" value="Submit"/><input type="reset" value="Reset"></p>
+        <p><input class="btn btn-info my-3" type="submit" value="Submit"/><input class="btn btn-info my-3" type="reset" value="Reset"></p>
     </form>
 
-
-
-
+</div>
 
 </div>
+
+<footer class="page-footer font-small bg-secondary text-white special-color-dark pt-4">
+
+
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href=""> MikeVerba</a>
+    </div>
+
+
+</footer>
 
 
 </body>

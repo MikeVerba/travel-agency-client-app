@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>All Offers</title>
+</head>
+<body>
+
+<nav class="navbar bg-dark navbar-dark">
+    <div class="container">
+        <a href="/index" class="navbar-brand">Your Account</a>
+        <a href="/user-chosen-offers" class="navbar-brand">Selected Offers</a>
+        <a href="/search-form" class="navbar-brand">Search For Offers</a>
+        <a href="/all-offers-list" class="navbar-brand">All Offers</a>
+        <a href="/registration-form" class="navbar-brand">Register new user</a>
+        <a href="/login" class="navbar-brand">Log In</a>
+        <a href="/logout" class="navbar-brand">Log Out</a>
+    </div>
+</nav>
+
+
+<div class="jumbotron jumbotron-fluid bg-info text-white text-center">
+    <div class="container">
+        <h4>All Offers</h4>
+    </div>
+</div>
+
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th> #</th>
+        <th> Price Per Night</th>
+        <th> Number of Nights</th>
+        <th> Destination</th>
+        <th> Is Dog Allowed</th>
+        <th> Is Offer Booked</th>
+        <th> Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${offerList.empty}">
+        <td colspan="2"> No Offers Avalible</td>
+    </tr>
+
+    <tr th:each="offer: ${offerList}">
+        <form>
+            <td><span th:text="${offer.id}"> 1 </span></td>
+            <td><span th:text="${offer.pricePerNight}"> Price per night </span></td>
+            <td><span th:text="${offer.numberOfNights}"> Number of nights </span></td>
+            <td><span th:text="${offer.continent}"> Continent </span></td>
+            <td><span th:text="${offer.dogAllowed} ? 'YES' : 'NO'">Is Dog Allowed</span></td>
+            <td><span th:text="${offer.offerBooked} ? 'YES' : 'NO'">Is Offer Booked</span></td>
+            <td><a th:href="@{'/offer/book-offer/' + ${offer.getId()}}">Book Offer</a></td>
+        </form>
+    </tr>
+    </tbody>
+</table>
+
+
+<div class="container h-100">
+    <div class="d-flex justify-content-center h-100">
+        <div class="searchbar">
+            <input class="search_input" type="text" name="" placeholder="Search...">
+            <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+        </div>
+    </div>
+</div>
+<footer class="page-footer font-small bg-secondary text-white special-color-dark pt-4">
+
+
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href=""> MikeVerba</a>
+    </div>
+
+
+</footer>
+
+</body>
+</html>

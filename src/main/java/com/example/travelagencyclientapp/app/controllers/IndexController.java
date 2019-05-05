@@ -4,7 +4,6 @@ package com.example.travelagencyclientapp.app.controllers;
 import com.example.travelagencyclientapp.app.models.services.UserService;
 import com.example.travelagencyclientapp.app.models.services.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +14,6 @@ public class IndexController {
 
 
     private final UserSession userSession;
-
-
     private final UserService userService;
 
     @Autowired
@@ -25,28 +22,25 @@ public class IndexController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping("index")
     public String index(Model model) {
-        if(!userSession.isLogin()){
-            return "redirect:/login";
-        }
 
-        model.addAttribute("accountStatus", userSession.getUserEntity().getAccountStatus());
+        model.addAttribute("userEntity", userService.getLoggedUser());
         return "index";
     }
 
     @GetMapping("/{page}")
     public String index(Model model,
-                        @PathVariable("page") int page){
-        if(!userSession.isLogin()){
-            return "redirect:/login";
+                        @PathVariable("page") int page) {
+        if (!userSession.isLogin()) {
+            return "index";
         }
 
 
         return "index";
     }
 
-    public UserSession getUserSession(){
+    public UserSession getUserSession() {
         return userSession;
     }
 }

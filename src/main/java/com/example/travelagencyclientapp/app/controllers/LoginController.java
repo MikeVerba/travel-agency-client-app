@@ -1,7 +1,8 @@
 package com.example.travelagencyclientapp.app.controllers;
 
-import com.example.travelagencyclientapp.app.models.forms.UserForm;
+import com.example.travelagencyclientapp.app.models.forms.LoginForm;
 import com.example.travelagencyclientapp.app.models.services.UserService;
+import com.example.travelagencyclientapp.app.models.services.UserServiceImpl;
 import com.example.travelagencyclientapp.app.models.services.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,10 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class LoginController {
 
-    final UserService userService;
-
-    final
-    UserSession userSession;
+    private final UserService userService;
+    private final UserSession userSession;
 
     @Autowired
     public LoginController(UserService userService, UserSession userSession) {
@@ -26,29 +25,34 @@ public class LoginController {
     }
 
 
-
-    @GetMapping({"/login","/"})
-    public String loginForm(Model model){
-        model.addAttribute("user",new UserForm());
+    @GetMapping("/login")
+    public String loginForm(Model model) {
+        model.addAttribute("loginForm", new LoginForm());
         return "login";
     }
 
     @PostMapping("/login")
-    public String getUser(@ModelAttribute UserForm user,
-                          Model model){
+    public String getUser(@ModelAttribute("loginForm") LoginForm loginForm,
+                          Model model) {
 
-        UserService.LoginResponse loginResponse = userService.login(user);
-        if(loginResponse == UserService.LoginResponse.SUCCESS){
-            return "redirect:/";
+        UserServiceImpl.LoginResponse loginResponse = userService.login(loginForm);
+        if (loginResponse == UserServiceImpl.LoginResponse.SUCCESS) {
+            return "redirect:/login-success";
         }
+
 
         model.addAttribute("loginResponse", loginResponse);
         return "login";
     }
 
     @GetMapping("/logout")
-    public  String logout(){
+    public String logout() {
         userSession.logout();
-        return "redirect:/login";
+        return "logout";
+    }
+
+    @GetMapping("/login-success")
+    public String loginSuccess() {
+        return "login-success";
     }
 }
