@@ -12,7 +12,6 @@ public class UserSession {
     private UserEntity userEntity; //todo hibernate proxy potential issue?
 
 
-
     public void logout() {
         isLogin = false;
         userEntity = null;

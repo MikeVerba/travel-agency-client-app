@@ -31,10 +31,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    /**
-     * @param user
-     * @return return true if user was added correctly, and false otherwise
-     */
+
     @Override
     public boolean addUser(RegistrationForm user) {
         if (!isUsernameFree(user.getUsername())) {
@@ -46,11 +43,13 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
     private boolean isUsernameFree(String username) {
         return !userRepository.existsByUsername(username);
     }
 
 
+    
     @Override
     public LoginResponse login(LoginForm loginForm) {
         Optional<UserEntity> userWitchTryToLogin =
