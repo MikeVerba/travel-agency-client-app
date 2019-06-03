@@ -13,12 +13,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -96,46 +97,65 @@ class UserServiceImplTest {
     @Test
     void login() {
         //given
+        given(userRepository.getUserByUsername(anyString())).willReturn(Optional.of(userEntity));
+        given(hashService.isPasswordCorrect(anyString(),anyString())).willReturn(true);
 
 
         //when
 
+        UserServiceImpl.LoginResponse loginResponse = userService.login(loginForm);
+
         //then
+        then(userRepository).should().getUserByUsername(loginForm.getUsername());
+        then(hashService).should().isPasswordCorrect(anyString(),anyString());
+        assertEquals(loginResponse, UserServiceImpl.LoginResponse.SUCCESS);
     }
 
     @Test
     void findById() {
         //given
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(userEntity));
 
         //when
+        UserEntity returnEntity = userService.findById(1L);
 
         //then
+
+        then(userRepository).should().findById(1L);
+        assertEquals(returnEntity,userEntity);
     }
 
     @Test
     void logoutUser() {
-        //given
 
         //when
+        userService.logoutUser();
 
         //then
+        verify(userSession).setLogin(false);
     }
 
     @Test
     void updateUser() {
-        //given
 
         //when
+        userService.updateUser(userEntity);
 
         //then
+        verify(userRepository).save(any());
     }
 
     @Test
     void getLoggedUser() {
         //given
+        given(userSession.getUserEntity()).willReturn(userEntity);
 
         //when
+        UserEntity returnUserEntity = userService.getLoggedUser();
 
         //then
+        verify(userSession).getUserEntity();
+        then(userSession).should().getUserEntity();
+        assertEquals(returnUserEntity,userEntity);
     }
 }
