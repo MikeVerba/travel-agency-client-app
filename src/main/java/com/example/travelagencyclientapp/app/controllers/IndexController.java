@@ -25,22 +25,11 @@ public class IndexController {
     @GetMapping("index")
     public String index(Model model) {
 
-        model.addAttribute("userEntity", userService.getLoggedUser());
+
+        //model.addAttribute("userEntity", userService.getLoggedUser());
         return "index";
+
     }
 
-    @GetMapping("/{page}")
-    public String index(Model model,
-                        @PathVariable("page") int page) {
-        if (!userSession.isLogin()) {
-            return "index";
-        }
 
-
-        return "index";
-    }
-
-    public UserSession getUserSession() {
-        return userSession;
-    }
 }

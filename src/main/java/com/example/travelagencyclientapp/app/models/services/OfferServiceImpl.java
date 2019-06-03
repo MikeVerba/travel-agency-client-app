@@ -43,7 +43,7 @@ public class OfferServiceImpl implements OfferService{
 
 
     @Override
-    public List<OfferForm> getAllOffersQualifiedByConditions(OfferForm conditionsOfferDto) {
+    public List<OfferForm> getAllOffersQualifiedByConditions(OfferForm conditionsOfferForm) {
         return offerRepository.findAll()
                 .stream()
                 .filter(offer -> !offer.getOfferBooked())
@@ -54,10 +54,10 @@ public class OfferServiceImpl implements OfferService{
                 })
                 .filter(offerForm -> {
 
-                    return offerForm.getPricePerNight() <= conditionsOfferDto.getPricePerNight() ||
-                            offerForm.getNumberOfNights() >= conditionsOfferDto.getNumberOfNights() ||
-                            offerForm.getContinent().equals(conditionsOfferDto.getContinent()) ||
-                            offerForm.getDogAllowed().equals(conditionsOfferDto.getDogAllowed());
+                    return offerForm.getPricePerNight() <= conditionsOfferForm.getPricePerNight() ||
+                            offerForm.getNumberOfNights() >= conditionsOfferForm.getNumberOfNights() ||
+                            offerForm.getContinent().equals(conditionsOfferForm.getContinent()) ||
+                            offerForm.getDogAllowed().equals(conditionsOfferForm.getDogAllowed());
 
                 })
                 .collect(Collectors.toList());

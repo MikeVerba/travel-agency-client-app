@@ -67,7 +67,7 @@ public class OffersController {
     }
 
     @PostMapping("/search-form")
-    public String registrationForm(@ModelAttribute("offerForm") @Valid OfferForm offerForm,
+    public String qualifiedSearchResults(@ModelAttribute("offerForm") @Valid OfferForm offerForm,
                                    BindingResult bindingResult,
                                    Model model){
 

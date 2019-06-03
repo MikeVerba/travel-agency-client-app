@@ -11,20 +11,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookingServiceImpl implements BookingService {
 
-    private final OfferServiceImpl offerServiceImpl;
-    private final UserServiceImpl clientService;
+//    private final OfferServiceImpl offerServiceImpl;
+//    private final UserServiceImpl clientService;
     private final OfferRepository offerRepository;
     private final UserRepository userRepository;
 
 
     @Autowired
-    public BookingServiceImpl(OfferServiceImpl offerServiceImpl,
-                              UserServiceImpl clientService,
-                              OfferRepository offerRepository,
+    public BookingServiceImpl(OfferRepository offerRepository,
                               UserRepository userRepository) {
 
-        this.offerServiceImpl = offerServiceImpl;
-        this.clientService = clientService;
+//        this.offerServiceImpl = offerServiceImpl;
+//        this.clientService = clientService;
         this.offerRepository = offerRepository;
         this.userRepository = userRepository;
 
