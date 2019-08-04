@@ -31,6 +31,17 @@ public class UserEntity {
     @OneToMany(mappedBy = "userEntity",fetch = FetchType.EAGER)
     private List<OfferEntity> offerEntityList;
 
+    public Byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(Byte[] image) {
+        this.image = image;
+    }
+
+    @Lob
+    private Byte[] image;
+
     public Long getId() {
         return id;
     }
