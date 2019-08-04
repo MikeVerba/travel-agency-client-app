@@ -4,10 +4,10 @@ import javax.validation.constraints.Pattern;
 
 public class LoginForm {
 
-        @Pattern(regexp = "[A-Za-z0-9]{3,30}")
+        @Pattern(regexp = "[A-Za-z0-9]{3,30}",message = "Invalid username")
         private String username;
 
-        @Pattern(regexp = "[A-Za-z0-9]{3,30}")
+        @Pattern(regexp = "[A-Za-z0-9]{3,30}",message = "Invalid password")
         private String password;
 
     public String getUsername() {

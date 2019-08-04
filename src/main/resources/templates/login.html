@@ -23,29 +23,25 @@
 
 <div class="jumbotron jumbotron-fluid bg-info text-white text-center">
     <div class="container">
-        <h4>Logowanie</h4>
+        <h4>Login</h4>
     </div>
 </div>
 
 
 <div class="container">
-    <h5 class="col-12 text-danger my-2 text-center" th:if="${incorrectLoginCredentials!= null}"
-        th:text="${incorrectLoginCredentials}"></h5>
+<!--    <div th:if="${#fields.hasErrors(*)}" class="alert alert-danger"></div>-->
 
 
 <div align="center">
 
-    <th:block th:if="${loginResponse != null}" th:switch="${loginResponse}">
-        <span th:case="${loginResponse.BAD_CREDENTIALS}" th:text="#{Login.bad.credentials}"></span>
-        <span th:case="${loginResponse.ACCOUNT_NOT_ACTIVATED}"  th:text="#{Login.account.not.activated}"></span>
-        <span th:case="${loginResponse.BANNED}"  th:text="#{Login.account.banned}"></span>
-    </th:block>
 
 
     <h1>Login</h1>
     <form action="#" th:action="@{/login}" th:object="${loginForm}" method="post"  class="col-md-6 mx-auto">
         <p> Username: <input type="text" th:field="*{username}"></p>
-        <p> Password: <input type="text" th:field="*{password}"></p>
+        <p class="col-12 text-danger my-2 text-center" th:if="${#fields.hasErrors('*')}" th:text="Username Error">Username Error</p>
+        <p> Password: <input type="password" th:field="*{password}"></p>
+        <p class="col-12 text-danger my-2 text-center" th:if="${#fields.hasErrors('*')}" th:text="Password Error">Password Error</p>
         <p><input class="btn btn-info my-3" type="submit" value="Submit"/><input class="btn btn-info my-3" type="reset" value="Reset"></p>
     </form>
 

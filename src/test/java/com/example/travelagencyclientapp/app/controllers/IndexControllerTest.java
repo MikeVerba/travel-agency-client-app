@@ -88,7 +88,7 @@ class IndexControllerTest {
         verify(userSession,never()).logout();
         verify(userSession,never()).getUserEntity();
 
-        verify(userService,times(1)).getLoggedUser();
+        verify(userService,times(2)).getLoggedUser();
         verify(userService,never()).findById(anyLong());
         verify(userService,never()).addUser(anyObject());
         verify(userService,never()).logoutUser();

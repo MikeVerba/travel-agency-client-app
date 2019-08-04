@@ -276,7 +276,7 @@ class OffersControllerTest {
         verify(offerService,never()).getAllOffersForLoginUser();
         verify(offerService,never()).getAllUnbookedOffers();
 
-        assertEquals(resultView,"search-form");
+        assertEquals(resultView,"redirect:/search-form");
     }
 
     @Test

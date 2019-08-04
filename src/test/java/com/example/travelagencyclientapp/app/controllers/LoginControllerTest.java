@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -31,6 +32,9 @@ class LoginControllerTest {
 
     @Mock
     UserService userService;
+
+    @Mock
+    BindingResult bindingResult;
 
     @Mock
     Model model;
@@ -95,14 +99,10 @@ class LoginControllerTest {
 
         //when
 
-        String result = loginController.getUser(loginForm,model,null);
+        String result = loginController.getUser(loginForm,bindingResult);
 
 
         //then
-
-        then(userService).should().login(ArgumentMatchers.any());
-
-        verify(userService).login(loginForm);
 
         assertEquals(result,"redirect:/login-success");
 
