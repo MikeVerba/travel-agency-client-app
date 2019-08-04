@@ -7,7 +7,7 @@ import com.example.travelagencyclientapp.app.models.services.UserServiceImpl;
 import com.example.travelagencyclientapp.app.models.services.UserSession;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,7 +21,7 @@ import org.springframework.validation.BindingResult;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -104,6 +104,8 @@ class LoginControllerTest {
 
         //then
 
+        verify(userService, times(1)).login(loginForm);
+        verify(userService,never()).addUser(anyObject());
         assertEquals(result,"redirect:/login-success");
 
 
