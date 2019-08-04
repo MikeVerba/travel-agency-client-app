@@ -36,15 +36,19 @@ public class LoginController {
 
     @PostMapping("/login")
     public String getUser(@ModelAttribute("loginForm") @Valid LoginForm loginForm,
-                           BindingResult bindingResult) {
+                          Model model, BindingResult bindingResult) {
 
+        UserServiceImpl.LoginResponse loginResponse = userService.login(loginForm);
+        if (loginResponse == UserServiceImpl.LoginResponse.SUCCESS) {
+            return "redirect:/login-success";
+        }
 
         if(bindingResult.hasErrors()){
             return "login";
         } //todo added to check for errors
 
 
-        //model.addAttribute("loginResponse", loginResponse);
+        model.addAttribute("loginResponse", loginResponse);
         return "redirect:/login-success";
     }
 

@@ -99,7 +99,7 @@ class LoginControllerTest {
 
         //when
 
-        String result = loginController.getUser(loginForm,bindingResult);
+        String result = loginController.getUser(loginForm,model,bindingResult);
 
 
         //then
