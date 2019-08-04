@@ -29,6 +29,7 @@ public class IndexController {
         if(userSession.isLogin()) {
 
             model.addAttribute("userEntity", userService.getLoggedUser());
+            System.out.println(userService.getLoggedUser().getImage());
         }
         return "user-details";
 

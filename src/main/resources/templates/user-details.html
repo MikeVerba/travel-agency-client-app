@@ -29,15 +29,16 @@
 
 
 <div style="text-align: center">
-        <img src="../../images/users-vector-icon-png_260862.jpg"
-             th:src="@{'/avatar/' + ${userEntity.id} + '/image'}" width="200" height="200">
-<!--             th:src="@{/images/users-vector-icon-png_260862.jpg}"-->
+
+
+            <img src="users-vector-icon-png_260862.jpg" th:src="@{'/avatar/' + ${userEntity.id} + '/image'}"  width="200" height="200"/>
+
 
     <form method="POST" action="/avatar" enctype="multipart/form-data">
         <input type="file" name="avatar" />
         <input type="submit" value="Submit" />
     </form>
-
+</div>
     <table class="table table-striped">
         <thead class="thead-dark">
         <tr>

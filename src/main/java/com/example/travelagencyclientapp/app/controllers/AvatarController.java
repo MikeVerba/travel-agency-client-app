@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 
 import javax.servlet.http.HttpServletResponse;
@@ -68,6 +68,9 @@ public class AvatarController {
             for (Byte wrappedByte : userEntity.getImage()) {
                 byteArray[i++] = wrappedByte;
             }
+
+            System.out.println("Inside renderFromDatabase");
+            System.out.println(userEntity.getImage());
 
 
             response.setContentType("image/jpg");
