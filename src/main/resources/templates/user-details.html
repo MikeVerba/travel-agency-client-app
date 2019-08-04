@@ -28,23 +28,10 @@
 
 
 
-<div style="text-align: center;">
-
-
-
-<!--            <img th:src="@{'/avatar/' + ${userEntity.getId()}}" alt="" style="width: 50px; height: 50px;"/>-->
-
-        <img src="static/images/users-vector-icon-png_260862.jpg"
-             th:src="@{/images/users-vector-icon-png_260862.jpg}"
-             width="200" height="200">
-
-
-            <!--<a th:href="@{'/avatar/' + ${userEntity.id}}">Delete avatar</a>-->
-            <!--<form method="POST" enctype="multipart/form-data" th:action="@{avatar}">-->
-                    <!--<input type="file" name="avatar" />-->
-                    <!--<input type="submit" value="Add avatar" />-->
-            <!--</form>-->
-
+<div style="text-align: center">
+        <img src="../../images/users-vector-icon-png_260862.jpg"
+             th:src="@{'/avatar/' + ${userEntity.id} + '/image'}" width="200" height="200">
+<!--             th:src="@{/images/users-vector-icon-png_260862.jpg}"-->
 
     <form method="POST" action="/avatar" enctype="multipart/form-data">
         <input type="file" name="avatar" />
