@@ -26,8 +26,11 @@ public class IndexController {
     public String index(Model model) {
 
 
-        //model.addAttribute("userEntity", userService.getLoggedUser());
-        return "index";
+        if(userSession.isLogin()) {
+
+            model.addAttribute("userEntity", userService.getLoggedUser());
+        }
+        return "user-details";
 
     }
 

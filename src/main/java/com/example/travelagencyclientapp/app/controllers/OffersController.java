@@ -77,6 +77,6 @@ public class OffersController {
         }
 
         model.addAttribute("searchResults", offerService.getAllOffersQualifiedByConditions(offerForm));
-        return "search-form";
+        return "redirect:/search-form";
     }
 }

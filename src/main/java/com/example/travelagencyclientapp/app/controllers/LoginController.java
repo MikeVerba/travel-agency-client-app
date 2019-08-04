@@ -7,9 +7,12 @@ import com.example.travelagencyclientapp.app.models.services.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -32,22 +35,28 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String getUser(@ModelAttribute("loginForm") LoginForm loginForm,
-                          Model model) {
+    public String getUser(@ModelAttribute("loginForm") @Valid LoginForm loginForm,
+                          Model model, BindingResult bindingResult) {
 
         UserServiceImpl.LoginResponse loginResponse = userService.login(loginForm);
         if (loginResponse == UserServiceImpl.LoginResponse.SUCCESS) {
             return "redirect:/login-success";
         }
 
+        if(bindingResult.hasErrors()){
+            return "login";
+        } //todo added to check for errors
+
 
         model.addAttribute("loginResponse", loginResponse);
-        return "login";
+        return "redirect:/login-success";
     }
 
     @GetMapping("/logout")
     public String logout() {
-        userSession.logout();
+
+            userSession.logout();
+
         return "logout";
     }
 

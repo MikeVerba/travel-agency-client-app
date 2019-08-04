@@ -39,6 +39,6 @@ class UserSessionTest {
     void logout() {
         userSession.logout();
         assertFalse(userSession.isLogin());
-        assertEquals(userSession.getUserEntity(),null);
+        assertNull(userSession.getUserEntity());
     }
 }

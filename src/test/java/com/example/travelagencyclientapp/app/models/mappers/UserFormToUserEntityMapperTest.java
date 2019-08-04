@@ -5,6 +5,7 @@ import com.example.travelagencyclientapp.app.models.entities.UserEntity;
 
 import com.example.travelagencyclientapp.app.models.forms.RegistrationForm;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -48,12 +49,66 @@ class UserFormToUserEntityMapperTest {
     }
 
     @Test
-    void map() {
+    @DisplayName(" Testing Equal Properties ")
+    void mappingTestWithEqualProperties() {
 
         UserEntity returnEntity = userFormToUserEntityMapper.map(registrationForm);
+
+        assertEquals(returnEntity.getUsername(),registrationForm.getUsername());
+        assertEquals(returnEntity.getEmail(),registrationForm.getEmail());
         assertEquals(returnEntity.getPassword(),registrationForm.getPassword());
         assertEquals(returnEntity.getName(),registrationForm.getName());
+        assertEquals(returnEntity.getSurname(),registrationForm.getSurname());
+    }
 
+
+
+    @Test
+    @DisplayName(" Testing Equal Properties With Lambda")
+    void mappingTestWithEqualPropertiesWithLambda() {
+
+        UserEntity returnEntity = userFormToUserEntityMapper.map(registrationForm);
+
+
+        assertAll(
+                () -> assertEquals(returnEntity.getUsername(),registrationForm.getUsername()),
+                () -> assertEquals(returnEntity.getEmail(),registrationForm.getEmail()),
+                () -> assertEquals(returnEntity.getPassword(),registrationForm.getPassword()),
+                () -> assertEquals(returnEntity.getName(),registrationForm.getName()),
+                () -> assertEquals(returnEntity.getSurname(),registrationForm.getSurname()));
 
     }
+
+
+    @Test
+    @DisplayName(" Testing Non-Equal Properties ")
+    void mappingTestWithNonEqualProperties() {
+
+
+        UserEntity returnEntity = userFormToUserEntityMapper.map(registrationForm);
+
+        assertNotEquals(returnEntity.getUsername(),"Piotr123");
+        assertNotEquals(returnEntity.getEmail(),"piotr@abc.pl");
+        assertNotEquals(returnEntity.getPassword(),"qwerty");
+        assertNotEquals(returnEntity.getName(),"Piotr");
+        assertNotEquals(returnEntity.getSurname(),"Kowalski");
+    }
+
+
+    @Test
+    @DisplayName(" Testing Non-Equal Properties With Lambda")
+    void mappingTestWithNonEqualPropertiesWithLambda() {
+
+        UserEntity returnEntity = userFormToUserEntityMapper.map(registrationForm);
+
+        assertAll(
+
+                ()-> assertNotEquals(returnEntity.getUsername(),"Piotr123"),
+                ()->assertNotEquals(returnEntity.getEmail(),"piotr@abc.pl"),
+                ()->assertNotEquals(returnEntity.getPassword(),"qwerty"),
+                ()->assertNotEquals(returnEntity.getName(),"Piotr"),
+                ()->assertNotEquals(returnEntity.getSurname(),"Kowalski"));
+
+    }
+
 }

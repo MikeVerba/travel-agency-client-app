@@ -5,7 +5,6 @@ import com.example.travelagencyclientapp.app.models.entities.OfferEntity;
 import com.example.travelagencyclientapp.app.models.entities.UserEntity;
 import com.example.travelagencyclientapp.app.models.repositories.OfferRepository;
 import com.example.travelagencyclientapp.app.models.repositories.UserRepository;
-import com.example.travelagencyclientapp.app.models.services.BookingService;
 import com.example.travelagencyclientapp.app.models.services.HashService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

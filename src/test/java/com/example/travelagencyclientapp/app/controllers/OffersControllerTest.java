@@ -9,6 +9,7 @@ import com.example.travelagencyclientapp.app.models.services.OfferService;
 import com.example.travelagencyclientapp.app.models.services.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -30,10 +31,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 class OffersControllerTest {
@@ -94,6 +95,7 @@ class OffersControllerTest {
     }
 
     @Test
+    @DisplayName("Testing getting unbooked offers with BDD")
     void offersListBDD() {
 
         //given
@@ -102,23 +104,28 @@ class OffersControllerTest {
 
         //when
 
-        String result = offersController.offersList(model);
+        String resultView = offersController.offersList(model);
 
         //then
 
         then(offerService).should().getAllUnbookedOffers();
-        assertEquals(result,"all-offers-list");
+        assertEquals(resultView,"all-offers-list");
     }
 
     @Test
+    @DisplayName("Testing getting all offers with Mock Mvc")
     void offersListWithMockMvc() throws Exception {
 
         mockMvc.perform(get("/all-offers-list/"))
                 .andExpect(status().isOk())
+                .andExpect(model().attributeExists("offerList"))
+                .andExpect(model().hasNoErrors())
+                .andExpect(model().size(1))
                 .andExpect(model().attribute("offerList",instanceOf(List.class)));
     }
 
     @Test
+    @DisplayName("Testing getting chosen offers with BDD")
     void userChosenOffersBDD() {
 
         //given
@@ -130,19 +137,26 @@ class OffersControllerTest {
 
         //then
         then(offerService).should().getAllOffersForLoginUser();
+        verify(offerService,times(1)).getAllOffersForLoginUser();
+        verify(offerService,never()).getAllOffers();
+        verify(offerService,never()).getAllUnbookedOffers();
         assertEquals(resultView,"user-chosen-offers");
 
 
     }
 
     @Test
+    @DisplayName("Testing getting chosen offers with Mock Mvc")
     void userChosenOffersMockMvc() throws Exception {
         mockMvc.perform(get("/user-chosen-offers/"))
                 .andExpect(status().isOk())
+                .andExpect(model().hasNoErrors())
+                .andExpect(model().attributeExists("chosenOfferList"))
                 .andExpect(model().attribute("chosenOfferList",instanceOf(List.class)));
     }
 
     @Test
+    @DisplayName("Testing booking offer with BDD")
     void bookOfferBDD() {
 
         //given
@@ -160,14 +174,40 @@ class OffersControllerTest {
 
         then(bookingService).should().bookOfferForUserId(anyLong(),anyLong());
         then(userService).should().getLoggedUser();
+        verify(bookingService,times(1)).bookOfferForUserId(anyLong(),anyLong());
+        verify(bookingService, never()).unbookOfferForOfferId(anyLong());
+        verify(userService,times(1)).getLoggedUser();
+        verify(userService,never()).login(anyObject());
+        verify(userService,never()).addUser(anyObject());
+        verify(userService,never()).logoutUser();
+        verify(userService,never()).findById(anyLong());
 
         assertEquals(resultView,"redirect:/user-chosen-offers");
 
     }
 
+    @Test
+    @DisplayName("Testing booking offer with Mock Mvc")
+    void bookOfferMockMvc() throws Exception{
+
+        UserEntity userEntity = new UserEntity();
+
+        given(userService.getLoggedUser()).willReturn(userEntity);
+
+
+        mockMvc.perform(get("/offer/book-offer/"+1L))
+                .andExpect(view().name("redirect:/user-chosen-offers"))
+                .andExpect(model().hasNoErrors())
+                .andExpect(model().size(0))
+                .andExpect(status().is3xxRedirection());
+    }
+
+
+
 
     @Test
-    void unbookOfferBDD() {
+    @DisplayName("Testing Unbooking offer with BDD")
+    void unBookOfferBDD() {
 
         //given
 
@@ -180,19 +220,40 @@ class OffersControllerTest {
         //then
 
         then(bookingService).should().unbookOfferForOfferId(anyLong());
+
+        verify(bookingService, times(1)).unbookOfferForOfferId(anyLong());
+        verify(bookingService, never()).bookOfferForUserId(anyLong(),anyLong());
         assertEquals(resultView,"redirect:/user-chosen-offers");
     }
 
     @Test
-    void searchForm() throws Exception {
+    @DisplayName("Testing Unbooking offer with Mock Mvc")
+    void unBookOfferMockMvc() throws Exception{
 
-        mockMvc.perform(get("/search-form/"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("offerForm",instanceOf(OfferForm.class)));
+        given(bookingService.unbookOfferForOfferId(anyLong())).willReturn(new OfferEntity());
 
+        mockMvc.perform(get("/offer/unbook-offer/"+1L))
+                .andExpect(view().name("redirect:/user-chosen-offers"))
+                .andExpect(model().hasNoErrors())
+                .andExpect(model().size(0))
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
+    @DisplayName("Testing search form with Mock Mvc")
+    void searchFormTestMockMvc() throws Exception {
+
+        mockMvc.perform(get("/search-form/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("search-form"))
+                .andExpect(model().hasNoErrors())
+                .andExpect(model().size(1))
+                .andExpect(model().attributeExists("offerForm"))
+                .andExpect(model().attribute("offerForm",instanceOf(OfferForm.class)));
+    }
+
+    @Test
+    @DisplayName("Testing search results with BDD")
     void qualifiedSearchResultsBDD() {
 
         List<OfferForm> offerFormList = new ArrayList<>();
@@ -210,7 +271,28 @@ class OffersControllerTest {
 
         then(offerService).should().getAllOffersQualifiedByConditions(offerForm);
         then(bindingResult).should().hasErrors();
+        verify(offerService,times(1)).getAllOffersQualifiedByConditions(anyObject());
+        verify(offerService,never()).getAllOffers();
+        verify(offerService,never()).getAllOffersForLoginUser();
+        verify(offerService,never()).getAllUnbookedOffers();
 
         assertEquals(resultView,"search-form");
     }
+
+    @Test
+    @DisplayName("Testing search results with Mock Mvc")
+    void qualifiedSearchResultsMockMvc() throws Exception{
+
+
+        given(offerService.getAllOffersQualifiedByConditions(anyObject())).willReturn(new ArrayList<>());
+
+        mockMvc.perform(post("/search-form"))
+                .andExpect(model().attributeExists("searchResults"))
+                .andExpect(model().size(2))
+                .andExpect(model().hasNoErrors())
+                .andExpect(status().is3xxRedirection());
+
+    }
+
+
 }
