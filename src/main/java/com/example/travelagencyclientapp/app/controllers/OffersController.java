@@ -73,10 +73,17 @@ public class OffersController {
 
         if(bindingResult.hasErrors()){
 
+
+
+
             return "search-form";
         }
 
+
+
+
+
         model.addAttribute("searchResults", offerService.getAllOffersQualifiedByConditions(offerForm));
-        return "redirect:/search-form";
+        return "search-form";
     }
 }

@@ -36,6 +36,7 @@ class OfferServiceImplTest {
     @InjectMocks
     OfferServiceImpl offerService;
 
+
     OfferForm offerForm;
 
     OfferEntity offerEntity;
@@ -76,7 +77,7 @@ class OfferServiceImplTest {
     }
 
     @Test
-    void getAllOffers() {
+    void getAllOffersTest() {
 
         //given
         given(offerRepository.findAll()).willReturn(offerEntityList);
@@ -92,7 +93,7 @@ class OfferServiceImplTest {
     }
 
     @Test
-    void getAllOffersForLoginUser() {
+    void getAllOffersForLoginUserTest() {
 
         //given
         given(userSession.isLogin()).willReturn(true);
@@ -110,7 +111,7 @@ class OfferServiceImplTest {
     }
 
     @Test
-    void getAllOffersQualifiedByConditions() {
+    void getAllOffersQualifiedByConditionsTest() {
 
         //given
         given(offerRepository.findAll()).willReturn(offerEntityList);
@@ -128,8 +129,9 @@ class OfferServiceImplTest {
         assertEquals(returnOfferFormList,offerFormList);
     }
 
+
     @Test
-    void getAllUnbookedOffers() {
+    void getAllUnbookedOffersTest() {
 
         //given
 
