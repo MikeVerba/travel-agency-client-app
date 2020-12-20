@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class OfferServiceImpl implements OfferService{
+public class OfferServiceImpl implements OfferService {
 
     private final OfferRepository offerRepository;
     private final UserSession userSession;
@@ -34,8 +34,8 @@ public class OfferServiceImpl implements OfferService{
     }
 
     @Override
-    public List<OfferEntity> getAllOffersForLoginUser(){
-        if(!userSession.isLogin()){
+    public List<OfferEntity> getAllOffersForLoginUser() {
+        if (!userSession.isLogin()) {
             throw new IllegalStateException("user not login");
         }
         return offerRepository.findByUserEntity(userSession.getUserEntity());
@@ -52,14 +52,10 @@ public class OfferServiceImpl implements OfferService{
                     offerForm.setId(offerEntity.getId());
                     return offerForm;
                 })
-                .filter(offerForm -> {
-
-                    return offerForm.getPricePerNight() <= conditionsOfferForm.getPricePerNight() ||
-                            offerForm.getNumberOfNights() >= conditionsOfferForm.getNumberOfNights() ||
-                            offerForm.getContinent().equals(conditionsOfferForm.getContinent()) ||
-                            offerForm.getDogAllowed().equals(conditionsOfferForm.getDogAllowed());
-
-                })
+                .filter(offerForm -> offerForm.getPricePerNight() <= conditionsOfferForm.getPricePerNight() ||
+                        offerForm.getNumberOfNights() >= conditionsOfferForm.getNumberOfNights() ||
+                        offerForm.getContinent().equals(conditionsOfferForm.getContinent()) ||
+                        offerForm.getDogAllowed().equals(conditionsOfferForm.getDogAllowed()))
                 .collect(Collectors.toList());
     }
 

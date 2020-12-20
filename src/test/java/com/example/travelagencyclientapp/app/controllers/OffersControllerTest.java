@@ -55,7 +55,7 @@ class OffersControllerTest {
     @InjectMocks
     OffersController offersController;
 
-    @Autowired
+//    @Autowired
     MockMvc mockMvc;
 
     OfferForm offerForm;

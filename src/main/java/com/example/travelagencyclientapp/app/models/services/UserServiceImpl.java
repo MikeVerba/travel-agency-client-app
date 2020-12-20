@@ -39,7 +39,8 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(hashService.hashPassword(user.getPassword()));
-        return userRepository.save(new UserFormToUserEntityMapper().map(user)) != null;
+        userRepository.save(new UserFormToUserEntityMapper().map(user));
+        return true;
 
     }
 

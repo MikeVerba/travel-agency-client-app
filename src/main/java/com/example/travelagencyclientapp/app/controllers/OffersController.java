@@ -70,19 +70,9 @@ public class OffersController {
     public String qualifiedSearchResults(@ModelAttribute("offerForm") @Valid OfferForm offerForm,
                                    BindingResult bindingResult,
                                    Model model){
-
         if(bindingResult.hasErrors()){
-
-
-
-
             return "search-form";
         }
-
-
-
-
-
         model.addAttribute("searchResults", offerService.getAllOffersQualifiedByConditions(offerForm));
         return "search-form";
     }
